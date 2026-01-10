@@ -1,0 +1,13 @@
+a {
+    text-decoration: none;
+    color: rgb(47, 113, 211);
+    font-weight: 500;
+}
+
+i {
+    color: rgb(47, 113, 211);
+}
+
+.para {
+    margin-bottom: 2rem;
+}
