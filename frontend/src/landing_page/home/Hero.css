@@ -1,0 +1,20 @@
+* {
+    color: rgb(70, 69, 69);
+}
+
+/* button */
+.btn {
+    background-color: rgb(47, 113, 211);
+    color: white;
+}
+
+.btn:hover {
+    background-color: black;
+    color: white;
+}
+
+/* image */
+.img {
+    margin-bottom: 5rem !important;
+    margin-inline: auto;
+}
