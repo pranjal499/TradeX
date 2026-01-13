@@ -1,0 +1,12 @@
+.logo {
+    width: 25%;
+}
+
+.navbar {
+    background-color: white;
+    padding: 0.5rem 2rem;
+}
+
+.nav-link {
+    margin-left: 2rem;
+}
