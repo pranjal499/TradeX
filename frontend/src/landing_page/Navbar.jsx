@@ -3,7 +3,7 @@ import './Navbar.css';
 export default function Navbar() {
     return (
         // Navbar 
-        <nav className="navbar navbar-expand-lg border-bottom">
+        <nav className="navbar navbar-expand-lg border-bottom sticky-top">
             <div className="container">
                 <a className="navbar-brand" href="#">
                     <img src="media/images/logo.png" alt="TradeX Logo" className="logo" />

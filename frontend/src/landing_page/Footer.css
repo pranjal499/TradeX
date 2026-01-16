@@ -1,0 +1,12 @@
+.footer-logo {
+    width: 60%;
+}
+
+.footer-txt {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.footer {
+    background-color: rgb(251, 251, 251);
+}
