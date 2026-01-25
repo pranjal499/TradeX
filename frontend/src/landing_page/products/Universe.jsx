@@ -4,7 +4,7 @@ export default function Universe() {
     return (
         <div className="container">
             <div className="row text-center my-5">
-                <h1>The Zerodha Universe</h1>
+                <h1>The TradeX Universe</h1>
                 <p>Extend your trading and investment experience even further with our partner platforms</p>
                 <div className="col-4 p-3 mt-5 universe-block">
                     <img src="media/images/tradexFundhouse.png" alt="TradeX fund house" className="w-75" />
