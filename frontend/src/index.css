@@ -12,3 +12,7 @@ code {
     monospace;
 }
 
+/* Support Hero */
+#supportHero a, div, li {
+  color: white;
+}
