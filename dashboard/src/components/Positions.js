@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { positions } from "../data/data";
+import axios from "axios";
+import { VerticalGraph } from "./VerticalGraph";
 
+// Positions:
 const Positions = () => {
+  const [allPositions, setAllPositions] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3002/allHoldings').then((res) => {
+      setAllPositions(res.data);
+    })
+  }, []);
+
+  const labels = allPositions.map((subArray) => subArray["name"]);
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Stock Price",
+        data: allPositions.map((stock) => stock.price),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
   return (
     <>
       <h3 className="title">Positions ({positions.length})</h3>
@@ -41,6 +63,7 @@ const Positions = () => {
           })}
         </table>
       </div>
+      <VerticalGraph data={data} />
     </>
   );
 };
