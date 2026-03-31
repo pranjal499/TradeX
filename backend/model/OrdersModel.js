@@ -1,9 +1,7 @@
-// Requiring dependencies:
-const { model } = require('mongoose');
-const { OrdersSchema } = require('../schemas/OrdersSchema.js');
+// requiring dependencies:
+const mongoose = require('mongoose');
+const {OrdersSchema} = require('../schemas/OrdersSchema');
 
-// Orders Model:
-const OrdersModel = new model('order', OrdersSchema);
-
-// Export model:
-module.exports = { OrdersModel };
+// export model:
+const Orders = mongoose.model('Orders', OrdersSchema);
+module.exports = Orders;

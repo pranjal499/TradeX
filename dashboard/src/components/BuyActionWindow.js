@@ -8,19 +8,35 @@ import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
+  // const [stockQuantity, setStockQuantity] = useState(1);
+  // const [stockPrice, setStockPrice] = useState(0.0);
+
+  // const handleBuyClick = () => {
+  //   axios.post("http://localhost:3000/newOrder", {
+  //     name: uid,
+  //     qty: stockQuantity,
+  //     price: stockPrice,
+  //     mode: "BUY",
+  //   });
+
+  //   GeneralContext.closeBuyWindow();
+  // };
+
+  // Stock price and quantitiy variables:
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
+  // handle buy click:
   const handleBuyClick = () => {
-    axios.post("http://localhost:3000/newOrder", {
+    axios.post('http://localhost:3002/newOrder', {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,
-      mode: "BUY",
+      mode: "BUY"
     });
-
     GeneralContext.closeBuyWindow();
-  };
+  }
+
 
   const handleCancelClick = () => {
     GeneralContext.closeBuyWindow();
@@ -30,6 +46,8 @@ const BuyActionWindow = ({ uid }) => {
     <div className="container" id="buy-window" draggable="true">
       <div className="regular-order">
         <div className="inputs">
+
+          {/* form */}
           <fieldset>
             <legend>Qty.</legend>
             <input

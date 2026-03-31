@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const HoldingsModel = require('./model/HoldingsModel');
 const PositionsModel = require('./model/PositionsModel');
 const bodyParser = require('body-parser');
-const cors = require('cors')
+const cors = require('cors');
+const OrdersModel = require('./model/OrdersModel');
 
 // Initialize values:
 const PORT = process.env.PORT || 3002;
@@ -23,10 +24,22 @@ app.get('/allHoldings', async (req, res) => {
 });
 
 // All positions:
-app.get('/allPositions', async(req, res) => {
+app.get('/allPositions', async (req, res) => {
     let allPositions = await PositionsModel.find({});
     res.json(allPositions);
 });
+
+// Saving Order:
+app.post('/newOrder', async (req, res) => {
+    let newOrder = new OrdersModel({
+        name: req.body.name,
+        qty: req.body.qty,
+        price: req.body.price,
+        mode: req.body.mode
+    });
+    newOrder.save();
+    res.send('Order saved');
+})
 
 // Starting server:
 app.listen(PORT, () => {
