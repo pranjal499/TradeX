@@ -1,3 +1,5 @@
+// Orders list: tracks placed orders and their latest status.
+
 import React from "react";
 import { Link } from "react-router-dom";
 

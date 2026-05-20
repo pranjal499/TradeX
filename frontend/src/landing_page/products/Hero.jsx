@@ -1,3 +1,5 @@
+// Products hero: introduces the product suite and value proposition.
+
 export default function Hero() {
     return (
         <div className="container">

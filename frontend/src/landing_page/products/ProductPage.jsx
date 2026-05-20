@@ -1,3 +1,5 @@
+// Products page container: assembles all product detail sections.
+
 import Hero from "./Hero";
 import LeftSection from './LeftSection';
 import RightSection from "./RightSection";

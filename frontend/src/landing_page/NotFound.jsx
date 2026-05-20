@@ -1,3 +1,5 @@
+// Fallback page shown when no route matches the current URL.
+
 export default function NotFound () {
     return(
         <div className="container mb-5">

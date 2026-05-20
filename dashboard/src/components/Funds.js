@@ -1,3 +1,5 @@
+// Funds section: displays account balance and fund movement options.
+
 import React from "react";
 import { Link } from "react-router-dom";
 

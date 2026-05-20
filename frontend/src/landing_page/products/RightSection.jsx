@@ -1,3 +1,5 @@
+// Right content block: product details with right-aligned media/text.
+
 export default function RightSection({
     imgUrl,
     title,

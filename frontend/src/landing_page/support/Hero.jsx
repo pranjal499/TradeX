@@ -1,3 +1,5 @@
+// Support hero section: introduces user support options.
+
 import './Hero.css';
 
 export default function Hero() {

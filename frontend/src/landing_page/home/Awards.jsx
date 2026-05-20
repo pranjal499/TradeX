@@ -1,3 +1,5 @@
+// Awards section: highlights recognitions and trust indicators.
+
 
 
 export default function Awards() {

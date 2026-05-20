@@ -1,3 +1,5 @@
+// Home page container: composes all homepage landing sections.
+
 import Awards from "./Awards";
 import Education from "./Education";
 import Hero from "./Hero";

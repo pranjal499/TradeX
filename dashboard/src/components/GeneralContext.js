@@ -1,3 +1,5 @@
+// Shared context: stores cross-component trading state and actions.
+
 import React, { useState } from "react";
 
 import BuyActionWindow from "./BuyActionWindow";

@@ -1,3 +1,5 @@
+// Left content block: product details with left-aligned media/text.
+
 export default function LeftSection({
     imgUrl,
     title,

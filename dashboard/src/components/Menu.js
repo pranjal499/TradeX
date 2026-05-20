@@ -1,3 +1,5 @@
+// Sidebar navigation: renders primary links for dashboard sections.
+
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";

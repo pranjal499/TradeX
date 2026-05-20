@@ -1,3 +1,5 @@
+// Universe section: showcases the broader partner/instrument ecosystem.
+
 import './Universe.css';
 
 export default function Universe() {

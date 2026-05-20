@@ -1,3 +1,5 @@
+// Ticket form section: collects issue details from users.
+
 import './CreateTicket.css'
 
 export default function CreateTicket() {

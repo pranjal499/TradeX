@@ -1,3 +1,5 @@
+// Apps shortcuts: provides quick links to connected products/tools.
+
 import React from "react";
 
 const Apps = () => {

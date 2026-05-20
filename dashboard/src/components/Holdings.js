@@ -1,3 +1,5 @@
+// Holdings table: renders long-term portfolio positions.
+
 // Importing dependencies:
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';

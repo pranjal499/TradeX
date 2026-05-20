@@ -1,3 +1,5 @@
+// Home layout: composes the menu and the main dashboard view.
+
 import React from "react";
 
 import Dashboard from "./Dashboard";

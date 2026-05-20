@@ -1,3 +1,5 @@
+// Pricing hero section: gives quick context on brokerage pricing.
+
 import './Hero.css'
 
 export default function Hero() {

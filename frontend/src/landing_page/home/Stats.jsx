@@ -1,3 +1,5 @@
+// Stats strip: displays key platform numbers and milestones.
+
 import './Stats.css';
 
 export default function Stats() {
