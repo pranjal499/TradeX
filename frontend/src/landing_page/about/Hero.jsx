@@ -1,3 +1,5 @@
+// About hero section: introduces company mission and story.
+
 import './Hero.css';
 
 export default function Hero() {

@@ -1,9 +1,12 @@
+// Frontend entry point: wires router layout and top-level pages.
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import HomePage from './landing_page/home/HomePage';
-import Signup from './landing_page/signup/Signup';
+import Signup from './landing_page/authentication/Signup';
+import Login from './landing_page/authentication/Login';
 import About from './landing_page/about/AboutPage';
 import ProductPage from './landing_page/products/ProductPage';
 import Pricing from './landing_page/pricing/PricingPage';
@@ -19,6 +22,7 @@ root.render(
     <Routes>
       <Route path='/' element={<HomePage />}/>
       <Route path='/signup' element={<Signup />}/>
+      <Route path='/login' element={<Login />}/>
       <Route path='/about' element={<About />}/>
       <Route path='/products' element={<ProductPage />}/>
       <Route path='/pricing' element={<Pricing />}/>

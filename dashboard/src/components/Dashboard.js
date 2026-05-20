@@ -1,3 +1,5 @@
+// Dashboard shell: arranges summary cards, charts, and watchlist widgets.
+
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 

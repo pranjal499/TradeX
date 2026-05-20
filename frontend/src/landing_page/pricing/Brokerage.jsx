@@ -1,3 +1,5 @@
+// Brokerage table section: details charges across market segments.
+
 import './Brokerage.css';
 
 export default function Brokerage() {

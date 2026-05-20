@@ -1,3 +1,5 @@
+// Positions table: shows active intraday/open positions.
+
 import React, { useState, useEffect } from "react";
 
 import { positions } from "../data/data";

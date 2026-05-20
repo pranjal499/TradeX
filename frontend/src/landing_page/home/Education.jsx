@@ -1,3 +1,5 @@
+// Education section: showcases learning resources for users.
+
 export default function Education() {
     return (
         <div className="container p-3 mt-5">

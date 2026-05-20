@@ -1,3 +1,5 @@
+// Team section: presents core team members and roles.
+
 import './Team.css';
 
 export default function Team() {

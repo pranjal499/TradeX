@@ -1,3 +1,5 @@
+// Buy action modal: captures inputs required to place a buy order.
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 

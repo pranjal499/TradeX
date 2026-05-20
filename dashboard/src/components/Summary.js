@@ -1,3 +1,5 @@
+// Summary panel: displays quick account-level metrics.
+
 import React from "react";
 
 const Summary = () => {

@@ -8,6 +8,10 @@ const PositionsModel = require('./model/PositionsModel');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const OrdersModel = require('./model/OrdersModel');
+const User = require("./model/UserModel");
+const { createSecretToken } = require("./util/SecretToken");
+const bcrypt = require("bcryptjs");
+const cookieParser = require('cookie-parser');
 
 // Initialize values:
 const PORT = process.env.PORT || 3002;
@@ -16,6 +20,9 @@ const uri = process.env.MONGO_URL;
 // cors and body parser:
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
 
 // All holdings:
 app.get('/allHoldings', async (req, res) => {
@@ -37,9 +44,72 @@ app.post('/newOrder', async (req, res) => {
         price: req.body.price,
         mode: req.body.mode
     });
-    newOrder.save();
+    await newOrder.save();
     res.send('Order saved');
-})
+});
+
+// Signup rout:
+app.post('/signup', async (req, res, next) => {
+    try {
+        const { email, password, username, createdAt } = req.body;
+        const existingUser = await User.findOne({ email });
+
+        // if user exist:
+        if (existingUser) {
+            return res
+                .status(409)
+                .json({ message: "User already exists" });
+        }
+
+        // else create a new user:
+        const user = await User.create({ email, password, username, createdAt });
+        const token = createSecretToken(user._id);
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+        });
+        res
+            .status(201)
+            .json({ message: "User signed up successfully", success: true, user });
+        next();
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+// Login rout: 
+app.post('/login', async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res
+                .status(401)
+                .json({ message: 'All fields are required' })
+        }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res
+                .status(401)
+                .json({ message: 'User not found' })
+        }
+        const auth = await bcrypt.compare(password, user.password)
+        if (!auth) {
+            return res
+                .status(401)
+                .json({ message: 'Incorrect password or email' })
+        }
+        const token = createSecretToken(user._id);
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+        });
+        res.status(201).json({ message: "User logged in successfully", success: true });
+        next()
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 // Starting server:
 app.listen(PORT, () => {

@@ -1,3 +1,5 @@
+// Seed data module: exports mock/static data for dashboard widgets.
+
 export const watchlist = [
   {
     name: "INFY",

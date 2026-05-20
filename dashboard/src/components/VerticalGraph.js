@@ -1,3 +1,5 @@
+// Vertical graph: visualizes account or instrument trend snapshots.
+
 import React from "react";
 import {
   Chart as ChartJS,

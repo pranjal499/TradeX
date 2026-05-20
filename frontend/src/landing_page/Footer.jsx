@@ -1,3 +1,5 @@
+// Footer component: renders site-wide footer content and links.
+
 import './Footer.css';
 
 export default function Footer() {

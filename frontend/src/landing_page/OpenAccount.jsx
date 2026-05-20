@@ -1,3 +1,5 @@
+// Reusable CTA section encouraging users to open an account.
+
 export default function OpenAccount() {
     return( 
         <div className="container mb-5">

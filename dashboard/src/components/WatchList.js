@@ -1,3 +1,5 @@
+// Watchlist widget: lists tracked symbols with quick actions.
+
 import React, { useState, useContext } from "react";
 
 import axios from "axios";

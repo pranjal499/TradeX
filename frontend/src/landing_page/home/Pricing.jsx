@@ -1,3 +1,5 @@
+// Home pricing preview: summarizes pricing highlights with CTA.
+
 export default function Pricing() {
     return( 
         <div className="container mt-5">

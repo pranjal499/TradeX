@@ -1,3 +1,5 @@
+// App entry point: mounts the dashboard routes into the root DOM node.
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

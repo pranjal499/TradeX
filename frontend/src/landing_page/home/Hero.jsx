@@ -1,3 +1,5 @@
+// Home hero section: introduces the product with top messaging.
+
 import './Hero.css';
 
 export default function Hero() {
