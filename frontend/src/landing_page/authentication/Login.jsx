@@ -34,10 +34,19 @@ export default function Login() {
         Validation(e);
         
         try {
-            const response = await axios.post('http://localhost:3002/login', formData);
-            console.log(response);
+            const response = await axios.post('http://localhost:3002/login', 
+                formData,
+                {
+                    withCredentials: true
+                }
+                
+            );
+
             if (response.data.success) {
-                navigate('http://localhost:3001')
+
+                // navigate after successful login:
+                navigate('http://localhost:3001');
+                // alert('login success');
             }
         }
         catch(err) {

@@ -39,7 +39,20 @@ export default function Signup() {
 
             // success:
             if (response.data.success) {
-                alert(response.data.message);
+                
+                // store token:
+                localStorage.setItem(
+                    'token',
+                    response.data.token
+                )
+
+                // store user:
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(response.data.user)
+                )
+
+                // after successful signup:
                 navigate('http://localhost:3001');
             }
         }
