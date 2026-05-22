@@ -12,14 +12,22 @@ const User = require("./model/UserModel");
 const { createSecretToken } = require("./util/SecretToken");
 const bcrypt = require("bcryptjs");
 const cookieParser = require('cookie-parser');
+const jwt = require("jsonwebtoken");
 
 // Initialize values:
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
 
 // cors and body parser:
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors({
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:3001'
+    ],
+
+    credentials: true
+}));
+// app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -49,7 +57,7 @@ app.post('/newOrder', async (req, res) => {
 });
 
 // Signup rout:
-app.post('/signup', async (req, res, next) => {
+app.post('/signup', async (req, res) => {
     try {
         const { email, password, username, createdAt } = req.body;
         const existingUser = await User.findOne({ email });
@@ -65,13 +73,13 @@ app.post('/signup', async (req, res, next) => {
         const user = await User.create({ email, password, username, createdAt });
         const token = createSecretToken(user._id);
         res.cookie("token", token, {
-            withCredentials: true,
-            httpOnly: false,
+            httpOnly: true,
+            sameSite: "lax",
+            secure: false
         });
         res
             .status(201)
             .json({ message: "User signed up successfully", success: true, user });
-        next();
     }
     catch (error) {
         console.log(error);
@@ -79,7 +87,7 @@ app.post('/signup', async (req, res, next) => {
 });
 
 // Login rout: 
-app.post('/login', async (req, res, next) => {
+app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -101,13 +109,63 @@ app.post('/login', async (req, res, next) => {
         }
         const token = createSecretToken(user._id);
         res.cookie("token", token, {
-            withCredentials: true,
-            httpOnly: false,
+            httpOnly: true,
+            sameSite: "lax",
+            secure: false
         });
-        res.status(201).json({ message: "User logged in successfully", success: true });
-        next()
+        res.status(201).json({
+            message: "User logged in successfully",
+            success: true,
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
     } catch (error) {
         console.error(error);
+    }
+});
+
+// token verify rout:
+app.get('/verify', async (req, res) => {
+
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res
+            .status(401)
+            .json({
+                authenticated: false
+            });
+    }
+
+    try {
+        const decode = jwt.verify(
+            token,
+            process.env.TOKEN_KEY
+        );
+
+        const user = await User.findById(decode.id);
+
+        res
+            .status(201)
+            .json({
+                authenticated: true,
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email
+                }
+            });
+    }
+    catch (err) {
+        res
+            .status(401)
+            .json({
+                authenticated: false
+            });
     }
 });
 
