@@ -35,36 +35,30 @@ export default function Signup() {
         Validation(e);
 
         try {
-            const response = await axios.post('http://localhost:3002/signup', formData);
+            const response = await axios.post('http://localhost:3002/signup', 
+                formData,
+                {
+                    withCredentials: true
+                }
+            );
 
             // success:
             if (response.data.success) {
-                
-                // store token:
-                localStorage.setItem(
-                    'token',
-                    response.data.token
-                )
 
-                // store user:
-                localStorage.setItem(
-                    'user',
-                    JSON.stringify(response.data.user)
-                )
-
-                // after successful signup:
+                // navigate after successful login:
                 navigate('http://localhost:3001');
+                // alert('login success');
             }
         }
         catch (err) {
 
             if (err.status === 409) {
                 alert(err.response.data.message);
-                try{
+                try {
 
                     navigate('http://localhost:3000/login');
                 }
-                catch(error) {
+                catch (error) {
                     navigate('http://localhost:3000/404');
                 }
             }
@@ -81,21 +75,21 @@ export default function Signup() {
                     <form className="needs-validation" noValidate onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="username" className="form-label">Username</label>
-                            <input type="username" className="form-control" id="username" aria-describedby="usernameHelp" required required onChange={handleChange} name="username"/>
+                            <input type="username" className="form-control" id="username" aria-describedby="usernameHelp" required required onChange={handleChange} name="username" />
                             <div className="invalid-feedback">
                                 Name is required
                             </div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email address</label>
-                            <input type="email" className="form-control" id="email" aria-describedby="emailHelp" required onChange={handleChange} name="email"/>
+                            <input type="email" className="form-control" id="email" aria-describedby="emailHelp" required onChange={handleChange} name="email" />
                             <div className="invalid-feedback">
                                 Email is required
                             </div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" className="form-control" id="password" required onChange={handleChange} name="password"/>
+                            <input type="password" className="form-control" id="password" required onChange={handleChange} name="password" />
                             <div className="invalid-feedback">
                                 Password is required
                             </div>

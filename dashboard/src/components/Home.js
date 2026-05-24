@@ -7,35 +7,15 @@ import TopBar from "./TopBar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {user} from "./UserFunction";
 
 const Home = () => {
-
-  // Navigate function:
-    const navigate = useNavigate();
-
-  const [user, setUser] = useState({
-    username: '',
-    email: ''
-  });
-  
-  useEffect(() => {
-    axios.get('http://localhost:3002/verify', {
-      withCredentials: true
-    })
-      .then((res) => {
-        console.log(res)
-        setUser({
-          username: res.data.user.username,
-          email: res.data.user.email
-        });
-      })
-  }, []);
-
+  const userInfo = user();
 
   return (
     <>
-      <TopBar user={user}/>
-      <Dashboard user={user}/>
+      <TopBar user={userInfo}/>
+      <Dashboard user={userInfo}/>
     </>
   );
 };
