@@ -77,9 +77,16 @@ app.post('/signup', async (req, res) => {
             sameSite: "lax",
             secure: false
         });
-        res
-            .status(201)
-            .json({ message: "User signed up successfully", success: true, user });
+        res.status(201).json({
+            message: "User logged in successfully",
+            success: true,
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
     }
     catch (error) {
         console.log(error);
@@ -168,6 +175,18 @@ app.get('/verify', async (req, res) => {
             });
     }
 });
+
+// logout rout:
+app.get('/logout', (req, res) => {
+    res.clearCookie('token');
+
+    res
+        .status(200)
+        .json({
+            success: true,
+            message: 'Logged out succeffully.'
+        });
+})
 
 // Starting server:
 app.listen(PORT, () => {

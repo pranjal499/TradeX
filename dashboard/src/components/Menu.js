@@ -1,10 +1,11 @@
 // Sidebar navigation: renders primary links for dashboard sections.
 
 import React, { useState } from "react";
-
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { handleLogout } from "./UserFunction";
 
-const Menu = ({user}) => {
+const Menu = ({ user }) => {
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
@@ -18,8 +19,6 @@ const Menu = ({user}) => {
 
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
-
-  console.log(user);
 
   return (
     <div className="menu-container">
@@ -94,10 +93,35 @@ const Menu = ({user}) => {
           </li>
         </ul>
         <hr />
-        <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar">ZU</div>
-          <p className="username">{user.username}</p>
+
+
+        <div className="profile-section">
+          <div className="profile" onClick={handleProfileClick}>
+            <div className="avatar">{user?.username?.[0]?.toUpperCase()}</div>
+            <p className="username">{user?.username}</p>
+          </div>
+          {
+            isProfileDropdownOpen && (
+              <div className="profile-dropdown">
+
+                  <Link
+                    to='/profile'
+                    className="dropdown-item"
+                  >
+                    Profile
+                  </Link>
+                  <br />
+
+                  <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
+            )
+          }
         </div>
+
+
+
       </div>
     </div>
   );
