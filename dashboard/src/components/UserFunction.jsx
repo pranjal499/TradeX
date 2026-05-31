@@ -29,10 +29,7 @@ export function user() {
             window.location.href = 'http://localhost:3000/login';
         }
     }, []);
-
-    if (!user) {
-        window.location.href = 'http://localhost:3000/login';
-    }
+    
     return user;
 }
 

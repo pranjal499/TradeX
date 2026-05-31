@@ -46,7 +46,15 @@ app.get('/allPositions', async (req, res) => {
 
 // Saving Order:
 app.post('/newOrder', async (req, res) => {
+    const token = req.cookies.token;
+
+    const decode = jwt.verify(
+        token,
+        process.env.TOKEN_KEY
+    );
+
     let newOrder = new OrdersModel({
+        user: decode.id,
         name: req.body.name,
         qty: req.body.qty,
         price: req.body.price,
@@ -186,7 +194,7 @@ app.get('/logout', (req, res) => {
             success: true,
             message: 'Logged out succeffully.'
         });
-})
+});
 
 // Starting server:
 app.listen(PORT, () => {

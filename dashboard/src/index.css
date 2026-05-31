@@ -856,40 +856,24 @@ hr {
   position: absolute;
   top: 60px;
   right: 0;
-
   width: 100px;
-
   background: white;
-
   border-radius: 10px;
-
-  box-shadow:
-    0 4px 20px rgba(0,0,0,0.1);
-
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   padding: 10px 0;
-
   z-index: 1000;
 }
 
 .dropdown-item {
   display: block;
-
   width: 100%;
-
   padding: 10px 10px;
-
   text-decoration: none;
-
   color: black;
-
   background: none;
-
   border: none;
-
   text-align: left;
-
   cursor: pointer;
-
   font-size: 14px;
 }
 
