@@ -18,7 +18,6 @@ export function user() {
                 withCredentials: true
             })
                 .then((res) => {
-                    console.log(res)
                     setUser({
                         username: res.data.user.username,
                         email: res.data.user.email
@@ -29,10 +28,7 @@ export function user() {
             window.location.href = 'http://localhost:3000/login';
         }
     }, []);
-
-    if (!user) {
-        window.location.href = 'http://localhost:3000/login';
-    }
+    
     return user;
 }
 
@@ -49,6 +45,5 @@ export function handleLogout() {
         
     }
     catch(err) {
-        console.log(err);
     }
 }

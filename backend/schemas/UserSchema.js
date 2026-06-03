@@ -1,26 +1,34 @@
 // Requireing dependencies:
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const Orders = require("../model/OrdersModel");
 
 // User schema:
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Your email address is required"],
-    // unique: true,
+    unique: true,
   },
   username: {
     type: String,
-    // required: [true, "Your username is required"],
+    required: [true, "Your username is required"],
   },
   password: {
     type: String,
-    // required: [true, "Your password is required"],
+    required: [true, "Your password is required"],
   },
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order"
+    }
+  ],
   createdAt: {
     type: Date,
     default: new Date(),
   },
+  
 });
 
 // Incripting password:

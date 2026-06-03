@@ -46,7 +46,15 @@ app.get('/allPositions', async (req, res) => {
 
 // Saving Order:
 app.post('/newOrder', async (req, res) => {
+    const token = req.cookies.token;
+
+    const decode = jwt.verify(
+        token,
+        process.env.TOKEN_KEY
+    );
+
     let newOrder = new OrdersModel({
+        user: decode.id,
         name: req.body.name,
         qty: req.body.qty,
         price: req.body.price,
@@ -54,6 +62,43 @@ app.post('/newOrder', async (req, res) => {
     });
     await newOrder.save();
     res.send('Order saved');
+});
+
+// All orders of current user:
+app.get('/orders', async (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        res
+            .status(401)
+            .json({
+                message: 'Unautherized'
+            })
+    }
+
+    try {
+        const decode = jwt.verify(
+            token,
+            process.env.TOKEN_KEY
+        );
+
+        let allOrders = await OrdersModel.find({
+            user: decode.id
+        });
+        res
+            .status(201)
+            .json(allOrders);
+    }
+    catch (err) {
+        res.status(204)
+    }
+
+});
+
+// Delete order:
+app.delete('/orders/:id', async (req, res) => {
+    let orderId = req.params.id;
+    await OrdersModel.findByIdAndDelete(orderId);
 });
 
 // Signup rout:
@@ -186,7 +231,7 @@ app.get('/logout', (req, res) => {
             success: true,
             message: 'Logged out succeffully.'
         });
-})
+});
 
 // Starting server:
 app.listen(PORT, () => {
