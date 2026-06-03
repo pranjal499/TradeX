@@ -64,6 +64,43 @@ app.post('/newOrder', async (req, res) => {
     res.send('Order saved');
 });
 
+// All orders of current user:
+app.get('/orders', async (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        res
+            .status(401)
+            .json({
+                message: 'Unautherized'
+            })
+    }
+
+    try {
+        const decode = jwt.verify(
+            token,
+            process.env.TOKEN_KEY
+        );
+
+        let allOrders = await OrdersModel.find({
+            user: decode.id
+        });
+        res
+            .status(201)
+            .json(allOrders);
+    }
+    catch (err) {
+        res.status(204)
+    }
+
+});
+
+// Delete order:
+app.delete('/orders/:id', async (req, res) => {
+    let orderId = req.params.id;
+    await OrdersModel.findByIdAndDelete(orderId);
+});
+
 // Signup rout:
 app.post('/signup', async (req, res) => {
     try {

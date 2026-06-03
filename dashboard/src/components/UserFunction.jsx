@@ -18,7 +18,6 @@ export function user() {
                 withCredentials: true
             })
                 .then((res) => {
-                    console.log(res)
                     setUser({
                         username: res.data.user.username,
                         email: res.data.user.email
@@ -46,6 +45,5 @@ export function handleLogout() {
         
     }
     catch(err) {
-        console.log(err);
     }
 }
