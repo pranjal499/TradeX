@@ -22,7 +22,11 @@ const uri = process.env.MONGO_URL;
 const normalizeOrigin = (origin) => origin?.replace(/\/+$/, '');
 const allowedOrigins = [
     normalizeOrigin(process.env.FRONTEND_URL),
-    normalizeOrigin(process.env.DASHBOARD_URL)
+    normalizeOrigin(process.env.DASHBOARD_URL),
+    'https://trade-x-rho-ebon.vercel.app',
+    'https://trade-x-dashboard-beryl.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
 ].filter(Boolean);
 const cookieOptions = {
     httpOnly: true,
