@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export default function Orders() {
 
     // use navigation function:
@@ -23,7 +25,7 @@ export default function Orders() {
             try {
 
                 const res = await axios.get(
-                    'http://localhost:3002/orders',
+                    `${API_BASE_URL}/orders`,
                     {
                         withCredentials: true
                     }
@@ -51,7 +53,7 @@ export default function Orders() {
     const handleSell = (id) => {
         setOrderId(id);
 
-        axios.delete(`http://localhost:3002/orders/${id}`);
+        axios.delete(`${API_BASE_URL}/orders/${id}`);
         window.location.reload();
     }
 
@@ -63,7 +65,7 @@ export default function Orders() {
                     <h3 className="title">Orders</h3>
 
                     <p>You have no order.</p>
-                    <Link to='http://localhost:3001'>
+                    <Link to="/">
                     <button className="btn order-btn">Get started</button>
                     </Link>
                 </div>)

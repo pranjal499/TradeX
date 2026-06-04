@@ -17,13 +17,14 @@ const jwt = require("jsonwebtoken");
 // Initialize values:
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    process.env.DASHBOARD_URL
+].filter(Boolean);
 
 // cors and body parser:
 app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'http://localhost:3001'
-    ],
+    origin: allowedOrigins,
 
     credentials: true
 }));
@@ -69,7 +70,7 @@ app.get('/orders', async (req, res) => {
     const token = req.cookies.token;
 
     if (!token) {
-        res
+        return res
             .status(401)
             .json({
                 message: 'Unautherized'
@@ -90,7 +91,9 @@ app.get('/orders', async (req, res) => {
             .json(allOrders);
     }
     catch (err) {
-        res.status(204)
+        res.status(401).json({
+            message: 'Unautherized'
+        });
     }
 
 });

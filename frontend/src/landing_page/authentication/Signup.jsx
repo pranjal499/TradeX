@@ -5,12 +5,12 @@ import Validation from './Validation';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL;
+const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
 
 export default function Signup() {
-
-    // navigate function:
-    const navigate = useNavigate();
 
     // State variables of the form:
     const [formData, setFormData] = useState({
@@ -33,9 +33,17 @@ export default function Signup() {
         e.preventDefault();
 
         Validation(e);
+        if (!e.currentTarget.checkValidity()) {
+            return;
+        }
+
+        if (!API_BASE_URL || !DASHBOARD_URL || !FRONTEND_URL) {
+            alert('Signup configuration is missing. Please restart the frontend server.');
+            return;
+        }
 
         try {
-            const response = await axios.post('http://localhost:3002/signup', 
+            const response = await axios.post(`${API_BASE_URL}/signup`, 
                 formData,
                 {
                     withCredentials: true
@@ -45,22 +53,26 @@ export default function Signup() {
             // success:
             if (response.data.success) {
 
-                // navigate after successful login:
-                navigate('http://localhost:3001');
+                // navigate after successful signup:
+                window.location.assign(DASHBOARD_URL);
                 // alert('login success');
             }
         }
         catch (err) {
 
-            if (err.status === 409) {
+            if (err.response?.status === 409) {
                 alert(err.response.data.message);
                 try {
 
-                    navigate('http://localhost:3000/login');
+                    window.location.assign(`${FRONTEND_URL}/#/login`);
                 }
                 catch (error) {
-                    navigate('http://localhost:3000/404');
+                    window.location.assign(`${FRONTEND_URL}/#/404`);
                 }
+            }
+
+            else {
+                alert(err.response?.data?.message || 'Unable to signup. Please check that the backend server is running.');
             }
         }
     }

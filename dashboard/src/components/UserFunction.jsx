@@ -1,32 +1,34 @@
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
+
 // handle user login:
 export function user() {
-    // Navigate function:
-    const navigate = useNavigate();
-
     const [user, setUser] = useState({
         username: '',
         email: ''
     });
 
     useEffect(() => {
-        try {
-            axios.get('http://localhost:3002/verify', {
+        if (!API_BASE_URL || !FRONTEND_URL) {
+            window.location.href = `${FRONTEND_URL || ''}/#/login`;
+            return;
+        }
+
+        axios.get(`${API_BASE_URL}/verify`, {
                 withCredentials: true
             })
-                .then((res) => {
-                    setUser({
-                        username: res.data.user.username,
-                        email: res.data.user.email
-                    });
-                })
-        }
-        catch (err) {
-            window.location.href = 'http://localhost:3000/login';
-        }
+            .then((res) => {
+                setUser({
+                    username: res.data.user.username,
+                    email: res.data.user.email
+                });
+            })
+            .catch(() => {
+                window.location.href = `${FRONTEND_URL}/#/login`;
+            });
     }, []);
     
     return user;
@@ -34,16 +36,12 @@ export function user() {
 
 // handle logout:
 export function handleLogout() {
-    try{
-        axios.get('http://localhost:3002/logout',
+    axios.get(`${API_BASE_URL}/logout`,
             {
                 withCredentials: true
             }
-        );
-
-        window.location.href = 'http://localhost:3000';
-        
-    }
-    catch(err) {
-    }
+        )
+        .finally(() => {
+            window.location.href = FRONTEND_URL;
+        });
 }

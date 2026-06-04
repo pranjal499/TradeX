@@ -9,12 +9,14 @@ import GeneralContext from "./GeneralContext";
 
 import "./BuyActionWindow.css";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const BuyActionWindow = ({ uid }) => {
   // const [stockQuantity, setStockQuantity] = useState(1);
   // const [stockPrice, setStockPrice] = useState(0.0);
 
   // const handleBuyClick = () => {
-  //   axios.post("http://localhost:3000/newOrder", {
+  //   axios.post(`${API_BASE_URL}/newOrder`, {
   //     name: uid,
   //     qty: stockQuantity,
   //     price: stockPrice,
@@ -30,7 +32,7 @@ const BuyActionWindow = ({ uid }) => {
 
   // handle buy click:
   const handleBuyClick = () => {
-    axios.post('http://localhost:3002/newOrder', {
+    axios.post(`${API_BASE_URL}/newOrder`, {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,

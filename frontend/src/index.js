@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {HashRouter, Routes, Route} from 'react-router-dom';
 import HomePage from './landing_page/home/HomePage';
 import Signup from './landing_page/authentication/Signup';
 import Login from './landing_page/authentication/Login';
@@ -17,7 +17,7 @@ import NotFound from './landing_page/NotFound';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <HashRouter>
   <Navbar />
     <Routes>
       <Route path='/' element={<HomePage />}/>
@@ -30,5 +30,5 @@ root.render(
       <Route path='*' element={<NotFound />}/>
     </Routes>
     <Footer />
-  </BrowserRouter>
+  </HashRouter>
 );

@@ -5,12 +5,11 @@ import Validation from './Validation';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL;
 
 export default function Login() {
-
-    // Navigate function:
-    const navigate = useNavigate();
 
     // State variables of the form:
     const [formData, setFormData] = useState({
@@ -32,9 +31,17 @@ export default function Login() {
         e.preventDefault();
 
         Validation(e);
+        if (!e.currentTarget.checkValidity()) {
+            return;
+        }
+
+        if (!API_BASE_URL || !DASHBOARD_URL) {
+            alert('Login configuration is missing. Please restart the frontend server.');
+            return;
+        }
         
         try {
-            const response = await axios.post('http://localhost:3002/login', 
+            const response = await axios.post(`${API_BASE_URL}/login`, 
                 formData,
                 {
                     withCredentials: true
@@ -45,14 +52,17 @@ export default function Login() {
             if (response.data.success) {
 
                 // navigate after successful login:
-                navigate('http://localhost:3001');
+                window.location.assign(DASHBOARD_URL);
                 // alert('login success');
             }
         }
         catch(err) {
-            if (err.status === 401) {
+            if (err.response?.status === 401) {
                 alert(err.response.data.message);
+                return;
             }
+
+            alert(err.response?.data?.message || 'Unable to login. Please check that the backend server is running.');
         }
     }
 
