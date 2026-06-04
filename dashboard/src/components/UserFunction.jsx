@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, '');
 const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
 
 // handle user login:

@@ -7,7 +7,7 @@ import GeneralContext from "./GeneralContext";
 
 import "./BuyActionWindow.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, '');
 
 const BuyActionWindow = ({ uid }) => {
   const { closeBuyWindow } = useContext(GeneralContext);

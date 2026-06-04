@@ -6,7 +6,7 @@ import { positions } from "../data/data";
 import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, '');
 
 // Positions:
 const Positions = () => {

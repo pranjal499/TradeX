@@ -19,10 +19,16 @@ mongoose.set('bufferCommands', false);
 // Initialize values:
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
+const normalizeOrigin = (origin) => origin?.replace(/\/+$/, '');
 const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    process.env.DASHBOARD_URL
+    normalizeOrigin(process.env.FRONTEND_URL),
+    normalizeOrigin(process.env.DASHBOARD_URL)
 ].filter(Boolean);
+const cookieOptions = {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' || process.env.VERCEL ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL),
+};
 let dbConnectionPromise = null;
 
 const connectToDatabase = () => {
@@ -50,8 +56,13 @@ const connectToDatabase = () => {
 
 // cors and body parser:
 app.use(cors({
-    origin: allowedOrigins,
+    origin(origin, callback) {
+        if (!origin || allowedOrigins.includes(normalizeOrigin(origin))) {
+            return callback(null, true);
+        }
 
+        return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+    },
     credentials: true
 }));
 // app.use(bodyParser.json());
@@ -133,6 +144,8 @@ app.delete('/orders/:id', async (req, res) => {
 // Signup rout:
 app.post('/signup', async (req, res) => {
     try {
+        await connectToDatabase();
+
         const { email, password, username, createdAt } = req.body;
         const existingUser = await User.findOne({ email });
 
@@ -146,12 +159,8 @@ app.post('/signup', async (req, res) => {
         // else create a new user:
         const user = await User.create({ email, password, username, createdAt });
         const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-            httpOnly: true,
-            sameSite: "lax",
-            secure: false
-        });
-        res.status(201).json({
+        res.cookie("token", token, cookieOptions);
+        return res.status(201).json({
             message: "User logged in successfully",
             success: true,
             token,
@@ -163,7 +172,11 @@ app.post('/signup', async (req, res) => {
         });
     }
     catch (error) {
-        console.log(error);
+        console.error('Signup route failed:', error);
+        return res.status(500).json({
+            message: 'Unable to signup. Please try again.',
+            success: false
+        });
     }
 });
 
@@ -176,6 +189,9 @@ app.post('/login', async (req, res) => {
                 .status(401)
                 .json({ message: 'All fields are required' })
         }
+
+        await connectToDatabase();
+
         const user = await User.findOne({ email });
         if (!user) {
             return res
@@ -189,12 +205,8 @@ app.post('/login', async (req, res) => {
                 .json({ message: 'Incorrect password or email' })
         }
         const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-            httpOnly: true,
-            sameSite: "lax",
-            secure: false
-        });
-        res.status(201).json({
+        res.cookie("token", token, cookieOptions);
+        return res.status(200).json({
             message: "User logged in successfully",
             success: true,
             token,
@@ -205,7 +217,11 @@ app.post('/login', async (req, res) => {
             }
         });
     } catch (error) {
-        console.error(error);
+        console.error('Login route failed:', error);
+        return res.status(500).json({
+            message: 'Unable to login. Please try again.',
+            success: false
+        });
     }
 });
 

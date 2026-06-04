@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL?.replace(/\/+$/, '');
 const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL;
 
 export default function Login() {
