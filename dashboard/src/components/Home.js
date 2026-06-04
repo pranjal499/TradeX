@@ -4,13 +4,10 @@ import React from "react";
 
 import Dashboard from "./Dashboard";
 import TopBar from "./TopBar";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import {user} from "./UserFunction";
+import { useUser } from "./UserFunction";
 
 const Home = () => {
-  const userInfo = user();
+  const userInfo = useUser();
 
   return (
     <>

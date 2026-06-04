@@ -1,11 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
 
 // handle user login:
-export function user() {
+export function useUser() {
     const [user, setUser] = useState({
         username: '',
         email: ''
