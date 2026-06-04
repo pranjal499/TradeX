@@ -14,6 +14,8 @@ const bcrypt = require("bcryptjs");
 const cookieParser = require('cookie-parser');
 const jwt = require("jsonwebtoken");
 
+mongoose.set('bufferCommands', false);
+
 // Initialize values:
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
@@ -21,6 +23,30 @@ const allowedOrigins = [
     process.env.FRONTEND_URL,
     process.env.DASHBOARD_URL
 ].filter(Boolean);
+let dbConnectionPromise = null;
+
+const connectToDatabase = () => {
+    if (!uri) {
+        return Promise.reject(new Error('MONGO_URL is not configured'));
+    }
+
+    if (mongoose.connection.readyState === 1) {
+        return Promise.resolve(mongoose.connection);
+    }
+
+    if (!dbConnectionPromise) {
+        dbConnectionPromise = mongoose.connect(uri, {
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 10000,
+            connectTimeoutMS: 5000,
+        }).catch((error) => {
+            dbConnectionPromise = null;
+            throw error;
+        });
+    }
+
+    return dbConnectionPromise;
+};
 
 // cors and body parser:
 app.use(cors({
@@ -185,42 +211,62 @@ app.post('/login', async (req, res) => {
 
 // token verify rout:
 app.get('/verify', async (req, res) => {
-
-    const token = req.cookies.token;
-
-    if (!token) {
-        return res
-            .status(401)
-            .json({
-                authenticated: false
-            });
-    }
-
     try {
-        const decode = jwt.verify(
-            token,
-            process.env.TOKEN_KEY
-        );
+        const token = req.cookies?.token;
 
-        const user = await User.findById(decode.id);
-
-        res
-            .status(201)
-            .json({
-                authenticated: true,
-                user: {
-                    id: user._id,
-                    username: user.username,
-                    email: user.email
-                }
+        if (!token) {
+            return res.status(401).json({
+                authenticated: false,
+                message: 'No auth token found'
             });
+        }
+
+        if (!process.env.TOKEN_KEY) {
+            return res.status(500).json({
+                authenticated: false,
+                message: 'Token configuration is missing'
+            });
+        }
+
+        const decode = jwt.verify(token, process.env.TOKEN_KEY);
+
+        await connectToDatabase();
+
+        const user = await User.findById(decode.id)
+            .select('_id username email')
+            .maxTimeMS(5000)
+            .lean();
+
+        if (!user) {
+            return res.status(404).json({
+                authenticated: false,
+                message: 'User not found'
+            });
+        }
+
+        return res.status(200).json({
+            authenticated: true,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
     }
     catch (err) {
-        res
-            .status(401)
-            .json({
-                authenticated: false
+        console.error('Verify route failed:', err);
+
+        if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+            return res.status(401).json({
+                authenticated: false,
+                message: 'Invalid or expired token'
             });
+        }
+
+        return res.status(500).json({
+            authenticated: false,
+            message: 'Unable to verify user'
+        });
     }
 });
 
@@ -239,6 +285,7 @@ app.get('/logout', (req, res) => {
 // Starting server:
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}...`);
-    mongoose.connect(uri);
-    console.log("Connected to DB");
+    connectToDatabase()
+        .then(() => console.log("Connected to DB"))
+        .catch((error) => console.error("Failed to connect to DB:", error));
 });
