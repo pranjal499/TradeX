@@ -17,9 +17,9 @@ export default function ProductPage() {
                 imgUrl="media/images/kite.png"
                 title="Kite"
                 description="Our ultra-fast flagship trading platform with streaming market data, advanced charts, an elegant UI, and more. Enjoy the Kite experience seamlessly on your Android and iOS devices."
-                link1=""
+                link1="https://kite.zerodha.com/"
                 link1Txt="Try Demo"
-                link2=""
+                link2="https://zerodha.com/products/kite/"
                 link2Txt="Learn More"
             />
 
@@ -28,7 +28,7 @@ export default function ProductPage() {
                 imgUrl="media/images/console.png"
                 title="Console"
                 description="The central dashboard for your Zerodha account. Gain insights into your trades and investments with in-depth reports and visualisations."
-                link=""
+                link="https://console.zerodha.com/"
                 linkTxt="Learn more"
             />
 
@@ -37,7 +37,7 @@ export default function ProductPage() {
                 imgUrl="media/images/coin.png"
                 title="Coin"
                 description="Buy direct mutual funds online, commission-free, delivered directly to your Demat account. Enjoy the investment experience on your Android and iOS devices."
-                link1=""
+                link1="https://coin.zerodha.com/"
                 link1Txt="Coin"
             />
 
@@ -46,7 +46,7 @@ export default function ProductPage() {
                 imgUrl="media/images/kiteconnect.png"
                 title="Kite Connect API"
                 description="Build powerful trading platforms and experiences with our super simple HTTP/JSON APIs. If you are a startup, build your investment app and showcase it to our clientbase."
-                link=""
+                link="https://kite.trade/connect/"
                 linkTxt="Kite connect"
             />
 

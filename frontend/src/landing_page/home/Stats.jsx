@@ -1,6 +1,7 @@
 // Stats strip: displays key platform numbers and milestones.
 
 import './Stats.css';
+import { Link } from 'react-router-dom';
 
 export default function Stats() {
     return( 
@@ -24,8 +25,8 @@ export default function Stats() {
                 <div className="col-6">
                     <img src="media/images/ecosystem.png" alt="Ecosystem image" className="w-100 img"/>
                     <div>
-                        <a href="" className="mx-5">Explore our products <i class="fa-solid fa-arrow-right-long"></i></a>
-                        <a href="">Try Kite demo <i class="fa-solid fa-arrow-right-long"></i></a>
+                        <Link to="/products" className="mx-5">Explore our products <i className="fa-solid fa-arrow-right-long"></i></Link>
+                        <a href="https://kite.zerodha.com/" target="_blank" rel="noreferrer">Try Kite demo <i className="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ export default function RightSection({
                     <h2>{title}</h2>
                     <p>{description}</p>
                     <div className="d-flex justify-content-between my-4">
-                        <a href="" >{linkTxt} <i class="fa-solid fa-arrow-right-long"></i></a>
+                        <a href={link || '#/products'} target={link ? '_blank' : undefined} rel={link ? 'noreferrer' : undefined}>{linkTxt} <i className="fa-solid fa-arrow-right-long"></i></a>
                     </div>
                 </div>
                 <div className="col p-5">

@@ -12,12 +12,6 @@ export default function Orders() {
     // orders:
     const [allOrders, setAllOrders] = useState([]);
 
-    // no order:
-    const [isEmpty, setIsEmpty] = useState(false);
-
-    // order id to sell:
-    const [orderId, setOrderId] = useState();
-
     useEffect(() => {
 
         const fetchOrders = async () => {
@@ -32,8 +26,6 @@ export default function Orders() {
                 );
 
                 setAllOrders(res.data);
-                // if (allOrders.length =! 0) setIsEmpty(true);
-                console.log(res);
 
             }
             catch (err) {
@@ -47,27 +39,29 @@ export default function Orders() {
 
         fetchOrders();
 
-    }, []);
+    }, [navigate]);
 
     // Hndle sell function:
-    const handleSell = (id) => {
-        setOrderId(id);
-
-        axios.delete(`${API_BASE_URL}/orders/${id}`);
-        window.location.reload();
+    const handleSell = async (id) => {
+        try {
+            await axios.delete(`${API_BASE_URL}/orders/${id}`, {
+                withCredentials: true
+            });
+            setAllOrders((orders) => orders.filter((order) => order._id.toString() !== id));
+        } catch (err) {
+            alert(err.response?.data?.message || 'Unable to sell this order. Please try again.');
+        }
     }
 
     return (
         <>
 
-            {isEmpty ?
+            {allOrders.length === 0 ?
                 (<div className="no-order">
                     <h3 className="title">Orders</h3>
 
                     <p>You have no order.</p>
-                    <Link to="/">
-                    <button className="btn order-btn">Get started</button>
-                    </Link>
+                    <Link to="/" className="btn order-btn">Get started</Link>
                 </div>)
                 :
                 (<div>

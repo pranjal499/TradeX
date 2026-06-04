@@ -1,8 +1,6 @@
 // Buy action modal: captures inputs required to place a buy order.
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import React, { useContext, useState } from "react";
 import axios from "axios";
 
 import GeneralContext from "./GeneralContext";
@@ -12,27 +10,21 @@ import "./BuyActionWindow.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const BuyActionWindow = ({ uid }) => {
-  // const [stockQuantity, setStockQuantity] = useState(1);
-  // const [stockPrice, setStockPrice] = useState(0.0);
-
-  // const handleBuyClick = () => {
-  //   axios.post(`${API_BASE_URL}/newOrder`, {
-  //     name: uid,
-  //     qty: stockQuantity,
-  //     price: stockPrice,
-  //     mode: "BUY",
-  //   });
-
-  //   GeneralContext.closeBuyWindow();
-  // };
+  const { closeBuyWindow } = useContext(GeneralContext);
 
   // Stock price and quantitiy variables:
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
   // handle buy click:
-  const handleBuyClick = () => {
-    axios.post(`${API_BASE_URL}/newOrder`, {
+  const handleBuyClick = async () => {
+    if (!API_BASE_URL) {
+      alert("Order API is not configured.");
+      return;
+    }
+
+    try {
+      await axios.post(`${API_BASE_URL}/newOrder`, {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,
@@ -41,13 +33,16 @@ const BuyActionWindow = ({ uid }) => {
     {
       withCredentials: true
     }
-  );
-    GeneralContext.closeBuyWindow();
+      );
+      closeBuyWindow();
+    } catch (err) {
+      alert(err.response?.data?.message || "Unable to place buy order. Please try again.");
+    }
   }
 
 
   const handleCancelClick = () => {
-    GeneralContext.closeBuyWindow();
+    closeBuyWindow();
   };
 
   return (
@@ -83,12 +78,12 @@ const BuyActionWindow = ({ uid }) => {
       <div className="buttons">
         <span>Margin required ₹140.65</span>
         <div>
-          <Link className="btn btn-blue" onClick={handleBuyClick}>
+          <button type="button" className="btn btn-blue" onClick={handleBuyClick}>
             Buy
-          </Link>
-          <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
+          </button>
+          <button type="button" className="btn btn-grey" onClick={handleCancelClick}>
             Cancel
-          </Link>
+          </button>
         </div>
       </div>
     </div>

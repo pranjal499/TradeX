@@ -1,15 +1,18 @@
 // Funds section: displays account balance and fund movement options.
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Funds = () => {
+  const showComingSoon = (action) => {
+    alert(`${action} is not connected to a payment gateway yet.`);
+  };
+
   return (
     <>
       <div className="funds">
         <p>Instant, zero-cost fund transfers with UPI </p>
-        <Link className="btn btn-green">Add funds</Link>
-        <Link className="btn btn-blue">Withdraw</Link>
+        <button type="button" className="btn btn-green" onClick={() => showComingSoon("Add funds")}>Add funds</button>
+        <button type="button" className="btn btn-blue" onClick={() => showComingSoon("Withdraw")}>Withdraw</button>
       </div>
 
       <div className="row">
@@ -79,7 +82,7 @@ const Funds = () => {
         <div className="col">
           <div className="commodity">
             <p>You don't have a commodity account</p>
-            <Link className="btn btn-blue">Open Account</Link>
+            <button type="button" className="btn btn-blue" onClick={() => showComingSoon("Commodity account opening")}>Open Account</button>
           </div>
         </div>
       </div>

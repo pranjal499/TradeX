@@ -1,5 +1,7 @@
 // Home pricing preview: summarizes pricing highlights with CTA.
 
+import { Link } from 'react-router-dom';
+
 export default function Pricing() {
     return( 
         <div className="container mt-5">
@@ -7,7 +9,7 @@ export default function Pricing() {
                 <div className="col-4">
                     <h2 className="mb-3">Unbeatable pricing</h2>
                     <p>We pioneered the concept of discount broking and price transparency in India. Flat fees and no hidden charges.</p>
-                    <a href="" className="mx-5">See pricing <i class="fa-solid fa-arrow-right-long"></i></a>
+                    <Link to="/pricing" className="mx-5">See pricing <i className="fa-solid fa-arrow-right-long"></i></Link>
                 </div>
                 <div className="col-2">
 

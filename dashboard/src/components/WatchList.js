@@ -2,8 +2,6 @@
 
 import React, { useState, useContext } from "react";
 
-import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
 
 import { Tooltip, Grow } from "@mui/material";
@@ -138,6 +136,18 @@ const WatchListActions = ({ uid }) => {
     generalContext.openBuyWindow(uid);
   };
 
+  const handleSellClick = () => {
+    alert(`Sell flow for ${uid} will be available from Orders after a buy order is placed.`);
+  };
+
+  const handleAnalyticsClick = () => {
+    alert(`Analytics for ${uid}: price and allocation chart are shown below the watchlist.`);
+  };
+
+  const handleMoreClick = () => {
+    alert(`${uid} quick actions: Buy, Sell, and Analytics.`);
+  };
+
   return (
     <span className="actions">
       <span>
@@ -146,9 +156,8 @@ const WatchListActions = ({ uid }) => {
           placement="top"
           arrow
           TransitionComponent={Grow}
-          onClick={handleBuyClick}
         >
-          <button className="buy">Buy</button>
+          <button className="buy" onClick={handleBuyClick}>Buy</button>
         </Tooltip>
         <Tooltip
           title="Sell (S)"
@@ -156,7 +165,7 @@ const WatchListActions = ({ uid }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="sell">Sell</button>
+          <button className="sell" onClick={handleSellClick}>Sell</button>
         </Tooltip>
         <Tooltip
           title="Analytics (A)"
@@ -164,12 +173,12 @@ const WatchListActions = ({ uid }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="action">
+          <button className="action" onClick={handleAnalyticsClick}>
             <BarChartOutlined className="icon" />
           </button>
         </Tooltip>
         <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
-          <button className="action">
+          <button className="action" onClick={handleMoreClick}>
             <MoreHoriz className="icon" />
           </button>
         </Tooltip>

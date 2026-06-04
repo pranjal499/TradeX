@@ -1,6 +1,7 @@
 // Universe section: showcases the broader partner/instrument ecosystem.
 
 import './Universe.css';
+import { Link } from 'react-router-dom';
 
 export default function Universe() {
     return (
@@ -36,7 +37,7 @@ export default function Universe() {
                     <p className="text-muted mt-3">Investment research platform <br/>that offers detailed insights on stocks, <br/>sectors, supply chains, and more.</p>
                 </div>
 
-                <button className="w-25 m-auto p-2 rounded btn fs-5 my-5">Sign up for free</button>
+                <Link to="/signup" className="w-25 m-auto p-2 rounded btn fs-5 my-5">Sign up for free</Link>
             </div>
         </div>
     )

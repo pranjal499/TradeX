@@ -7,7 +7,7 @@ export default function Brokerage() {
         <div className="container">
             <div className="row pt-5 m-5 text-center border-top">
                 <div className="col-8">
-                    <a href="">
+                    <a href="https://zerodha.com/brokerage-calculator/" target="_blank" rel="noreferrer">
                         <h3 className="fs-5">Brokerage calculator</h3>
                     </a>
                         <ul className="brokerage-ul">
@@ -20,7 +20,7 @@ export default function Brokerage() {
                         </ul>
                 </div>
                 <div className="col-4">
-                    <a href="">
+                    <a href="https://zerodha.com/charges/" target="_blank" rel="noreferrer">
                         <h3 className="fs-5">List of charges</h3>
                     </a>
                 </div>
