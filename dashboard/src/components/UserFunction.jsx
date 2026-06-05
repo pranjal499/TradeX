@@ -11,13 +11,13 @@ export function useUser() {
         email: ''
     });
 
-    useEffect(() => {
+    useEffect(async() => {
         if (!API_BASE_URL || !FRONTEND_URL) {
             window.location.href = `${FRONTEND_URL || ''}/#/login`;
             return;
         }
 
-        axios.get(`${API_BASE_URL}/verify`, {
+        await axios.get(`${API_BASE_URL}/verify`, {
                 withCredentials: true
             })
             .then((res) => {
